@@ -36,9 +36,9 @@ def is_word(word_list, word):
     Returns: True if word is in word_list, False otherwise
 
     Example:
-    >>> is_word(word_list, 'bat') returns
+    # >>> is_word(word_list, 'bat') returns
     True
-    >>> is_word(word_list, 'asdf') returns
+    # >>> is_word(word_list, 'asdf') returns
     False
     '''
     word = word.lower()
@@ -216,7 +216,7 @@ class CiphertextMessage(Message):
             self.message_text (string, determined by input text)
             self.valid_words (list, determined using helper function load_words)
         '''
-        pass  # delete this line and replace with your code here
+        super().__init__(text)
 
     def decrypt_message(self):
         '''
@@ -234,7 +234,25 @@ class CiphertextMessage(Message):
         Returns: a tuple of the best shift value used to decrypt the message
         and the decrypted message text using that shift value
         '''
-        pass  # delete this line and replace with your code here
+        words = self.message_text.split()
+        wordsstriped = []
+        for word in words:
+            wordsstriped.append(''.join([i for i in word if i.isalpha()]))
+
+        shiftCountDict = {}
+        for shift in range(26):
+            shiftCountDict[26 - shift] = 0
+            for word in wordsstriped:
+                message = PlaintextMessage(word, 26 - shift)
+                if is_word(message.get_valid_words(), message.get_message_text_encrypted()):
+                    shiftCountDict[26 - shift] += 1
+        sorted_by_value = sorted(shiftCountDict.items(), key=lambda kv: kv[1])
+
+        shift = sorted_by_value[-1][0]
+        if shift == 26:
+            shift = 0
+        message = PlaintextMessage(self.get_message_text(), shift)
+        return (shift, message.get_message_text_encrypted())
 
 
 # Example test case (PlaintextMessage)

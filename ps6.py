@@ -1,5 +1,6 @@
 import string
 
+
 ### DO NOT MODIFY THIS FUNCTION ###
 def load_words(file_name):
     '''
@@ -22,6 +23,7 @@ def load_words(file_name):
     in_file.close()
     return word_list
 
+
 ### DO NOT MODIFY THIS FUNCTION ###
 def is_word(word_list, word):
     '''
@@ -43,6 +45,7 @@ def is_word(word_list, word):
     word = word.strip(" !@#$%^&*()-_+={}[]|\:;'<>?,./\"")
     return word in word_list
 
+
 ### DO NOT MODIFY THIS FUNCTION ###
 def get_story_string():
     """
@@ -53,7 +56,9 @@ def get_story_string():
     f.close()
     return story
 
+
 WORDLIST_FILENAME = 'words.txt'
+
 
 class Message(object):
     ### DO NOT MODIFY THIS METHOD ###
@@ -200,7 +205,6 @@ class PlaintextMessage(Message):
         self.message_text_encrypted = super().apply_shift(self.shift)
 
 
-
 class CiphertextMessage(Message):
     def __init__(self, text):
         '''
@@ -212,7 +216,7 @@ class CiphertextMessage(Message):
             self.message_text (string, determined by input text)
             self.valid_words (list, determined using helper function load_words)
         '''
-        pass #delete this line and replace with your code here
+        pass  # delete this line and replace with your code here
 
     def decrypt_message(self):
         '''
@@ -230,14 +234,15 @@ class CiphertextMessage(Message):
         Returns: a tuple of the best shift value used to decrypt the message
         and the decrypted message text using that shift value
         '''
-        pass #delete this line and replace with your code here
+        pass  # delete this line and replace with your code here
 
-#Example test case (PlaintextMessage)
+
+# Example test case (PlaintextMessage)
 plaintext = PlaintextMessage('hello', 2)
 print('Expected Output: jgnnq')
 print('Actual Output:', plaintext.get_message_text_encrypted())
 
-#Example test case (CiphertextMessage)
+# Example test case (CiphertextMessage)
 ciphertext = CiphertextMessage('jgnnq')
 print('Expected Output:', (24, 'hello'))
 print('Actual Output:', ciphertext.decrypt_message())

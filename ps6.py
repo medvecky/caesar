@@ -240,15 +240,20 @@ class CiphertextMessage(Message):
             wordsstriped.append(''.join([i for i in word if i.isalpha()]))
 
         shiftCountDict = {}
-        for shift in range(26):
-            shiftCountDict[26 - shift] = 0
-            for word in wordsstriped:
-                message = PlaintextMessage(word, 26 - shift)
-                if is_word(message.get_valid_words(), message.get_message_text_encrypted()):
-                    shiftCountDict[26 - shift] += 1
-        sorted_by_value = sorted(shiftCountDict.items(), key=lambda kv: kv[1])
 
+        for word in wordsstriped:
+            message =  PlaintextMessage(word, 0)
+            for shift in range(26):
+                message.change_shift(26 - shift)
+                if is_word(message.get_valid_words(), message.get_message_text_encrypted()):
+                    if (26 - shift) in shiftCountDict:
+                        shiftCountDict[26 - shift] += 1
+                    else:
+                        shiftCountDict[26 - shift] = 1
+
+        sorted_by_value = sorted(shiftCountDict.items(), key=lambda kv: kv[1])
         shift = sorted_by_value[-1][0]
+
         if shift == 26:
             shift = 0
         message = PlaintextMessage(self.get_message_text(), shift)
